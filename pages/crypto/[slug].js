@@ -1,4 +1,4 @@
-import styles from '../../styles/Home.module.css'
+import styles from '../../styles/home.module.css'
 import React from "react";
 import {Toolbar} from "../../components/toolbar";
 import {useRouter} from "next";
@@ -10,8 +10,8 @@ export const Feed = ({articles, pageNumber}) => {
     <>
       <div className="page-container">
         <Toolbar/>
-
         <div className={styles.main}>
+          <h1>The latest news from the Bitcoin world</h1>
           {articles.map((article, index) => (
             <div key={index} className={styles.post}>
               <h1 onClick={() => (window.location.href = article.url)}>{article.title}</h1>
@@ -26,20 +26,20 @@ export const Feed = ({articles, pageNumber}) => {
             className={pageNumber === 1 ? styles.disabled : styles.active}
             onClick={() => {
               if (pageNumber > 1 && pageNumber !==undefined) {
-                Router.push(`/feed/${pageNumber - 1}`).then(() => window.scrollTo(0, 0));
+                Router.push(`/CYPTOnews/${pageNumber - 1}`).then(() => window.scrollTo(0, 0));
               }
             }}
           >
             Previous Page
           </div>
 
-          <div>#{pageNumber}</div>
+          <div>{pageNumber}</div>
 
           <div
             className={pageNumber === 5 ? styles.disabled : styles.active}
             onClick={() => {
               if (pageNumber < 5 && pageNumber !==undefined) {
-                Router.push(`/feed/${pageNumber + 1}`).then(() => window.scrollTo(0, 0));
+                Router.push(`/CYPTOnews/${pageNumber + 1}`).then(() => window.scrollTo(0, 0));
               }
             }}
           >
@@ -71,7 +71,7 @@ export const getServerSideProps = async pageContext => {
   }
 
   const apiResponse = await fetch(
-    `https://newsapi.org/v2/top-headlines?country=us&pageSize=5&page=${pageNumber}`,
+    `https://newsapi.org/v2/everything?q=bitcoin&apiKey=871ee6abc819404eb541924b9131704c&page=${pageNumber}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_NEWS_KEY}`,
